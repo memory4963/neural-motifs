@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CUDA_PATH=/usr/local/cuda/
+CUDA_PATH=/usr/local/cuda-9.0/
 
 # Which CUDA capabilities do we want to pre-build for?
 # https://developer.nvidia.com/cuda-gpus

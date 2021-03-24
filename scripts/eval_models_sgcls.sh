@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+export PYTHONPATH=/home/luoao/outerhome/projects/SceneGraphGeneration/neural-motifs
 # This is a script that will evaluate all models for SGCLS
 export CUDA_VISIBLE_DEVICES=$1
 

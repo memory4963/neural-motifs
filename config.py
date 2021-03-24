@@ -17,7 +17,7 @@ def stanford_path(fn):
 # =============================================================================
 # Update these with where your data is stored ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-VG_IMAGES = '/home/rowan/datasets2/VG_100K_2/VG_100K'
+VG_IMAGES = '/home/luoao/outerhome/projects/SceneGraphGeneration/neural-motifs/data/visual_genome/VG_100K'
 RCNN_CHECKPOINT_FN = path('faster_rcnn_500k.h5')
 
 IM_DATA_FN = stanford_path('image_data.json')
@@ -102,6 +102,7 @@ class ModelConfig(object):
         self.pass_in_obj_feats_to_edge = None
         self.pooling_dim = None
         self.rec_dropout = None
+        self.single_test = None
         self.parser = self.setup_parser()
         self.args = vars(self.parser.parse_args())
 
@@ -194,4 +195,5 @@ class ModelConfig(object):
         parser.add_argument('-use_bias', dest='use_bias',  action='store_true')
         parser.add_argument('-use_tanh', dest='use_tanh',  action='store_true')
         parser.add_argument('-limit_vision', dest='limit_vision',  action='store_true')
+        parser.add_argument('-single_test', dest='single_test', type=str, default='')
         return parser

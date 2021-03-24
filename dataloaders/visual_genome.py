@@ -18,6 +18,8 @@ from dataloaders.image_transforms import SquarePad, Grayscale, Brightness, Sharp
     RandomOrder, Hue, random_crop
 from collections import defaultdict
 from pycocotools.coco import COCO
+from config import ModelConfig
+conf = ModelConfig()
 
 
 class VG(Dataset):
@@ -59,6 +61,9 @@ class VG(Dataset):
 
         self.filenames = load_image_filenames(image_file)
         self.filenames = [self.filenames[i] for i in np.where(self.split_mask)[0]]
+
+        if not conf.single_test == '':
+            self.filenames = [conf.single_test]
 
         self.ind_to_classes, self.ind_to_predicates = load_info(dict_file)
 
