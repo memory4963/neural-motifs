@@ -4,7 +4,15 @@ dictionary model
 """
 
 import numpy as np
-from dataloaders.visual_genome import VG
+
+from config import ModelConfig
+conf = ModelConfig()
+
+if conf.custom_data:
+    from dataloaders.custom_dataloader import VG
+else:
+    from dataloaders.visual_genome import VG
+    
 from lib.fpn.box_intersections_cpu.bbox import bbox_overlaps
 from lib.pytorch_misc import nonintersecting_2d_inds
 

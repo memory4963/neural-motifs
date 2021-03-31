@@ -3,6 +3,8 @@ import cv2
 import json
 import numpy as np
 from config import BOX_SCALE
+from config import ModelConfig
+conf = ModelConfig()
 
 
 def __get_objs(pred_entry, labels, k=10):
@@ -82,7 +84,10 @@ def __generate_graph(pred_entry, obj_k=10, rel_k=20):
 
 
 def __draw_boxes(img, graph):
-    scale = img.shape[1] / BOX_SCALE
+    if conf.custom_data:
+        scale = 1
+    else:
+        scale = img.shape[1] / BOX_SCALE
     for item in graph['objs'].items():
         key, obj = item
         box = obj['box']

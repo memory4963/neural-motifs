@@ -103,6 +103,7 @@ class ModelConfig(object):
         self.pooling_dim = None
         self.rec_dropout = None
         self.single_test = None
+        self.custom_data = None
         self.parser = self.setup_parser()
         self.args = vars(self.parser.parse_args())
 
@@ -196,4 +197,5 @@ class ModelConfig(object):
         parser.add_argument('-use_tanh', dest='use_tanh',  action='store_true')
         parser.add_argument('-limit_vision', dest='limit_vision',  action='store_true')
         parser.add_argument('-single_test', dest='single_test', type=str, default='')
+        parser.add_argument('-custom_data', dest='custom_data', type=str, default='')
         return parser

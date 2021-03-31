@@ -5,6 +5,8 @@ from lib.fpn.anchor_targets import anchor_target_layer
 import numpy as np
 import torch
 from torch.autograd import Variable
+from config import ModelConfig
+conf = ModelConfig()
 
 
 class Blob(object):
@@ -83,7 +85,7 @@ class Blob(object):
         )))
 
         # Add relationship info
-        if self.is_rel:
+        if self.is_rel and not conf.custom_data:
             self.gt_rels.append(np.column_stack((
                 i * np.ones(d['gt_relations'].shape[0], dtype=np.int64),
                 d['gt_relations'])))
@@ -130,7 +132,7 @@ class Blob(object):
         self.im_sizes = np.stack(self.im_sizes).reshape(
             (self.num_gpus, self.batch_size_per_gpu, 3))
 
-        if self.is_rel:
+        if self.is_rel and not conf.custom_data:
             self.gt_rels, self.gt_rel_chunks = self._chunkize(self.gt_rels)
 
         self.gt_boxes, self.gt_box_chunks = self._chunkize(self.gt_boxes, tensor=torch.FloatTensor)
@@ -170,10 +172,10 @@ class Blob(object):
             self.train_anchor_labels = self.train_anchor_labels.cuda(self.primary_gpu, async=True)
             self.train_anchors = self.train_anchors.cuda(self.primary_gpu, async=True)
 
-            if self.is_rel:
+            if self.is_rel and not conf.custom_data:
                 self.gt_rels = self._scatter(self.gt_rels, self.gt_rel_chunks)
         else:
-            if self.is_rel:
+            if self.is_rel and not conf.custom_data:
                 self.gt_rels = self.gt_rels.cuda(self.primary_gpu, async=True)
 
         if self.proposal_chunks is not None:
@@ -192,10 +194,10 @@ class Blob(object):
         if index not in list(range(self.num_gpus)):
             raise ValueError("Out of bounds with index {} and {} gpus".format(index, self.num_gpus))
 
-        if self.is_rel:
+        if self.is_rel and not conf.custom_data:
             rels = self.gt_rels
             if index > 0 or self.num_gpus != 1:
-                rels_i = rels[index] if self.is_rel else None
+                rels_i = rels[index] if self.is_rel and not conf.custom_data else None
         elif self.is_flickr:
             rels = (self.gt_sents, self.gt_nodes)
             if index > 0 or self.num_gpus != 1:
