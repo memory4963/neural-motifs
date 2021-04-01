@@ -87,7 +87,7 @@ def __draw_boxes(img, graph):
     if conf.custom_data:
         scale = 1
     else:
-        scale = img.shape[1] / BOX_SCALE
+        scale = max(img.shape) / BOX_SCALE
     for item in graph['objs'].items():
         key, obj = item
         box = obj['box']
